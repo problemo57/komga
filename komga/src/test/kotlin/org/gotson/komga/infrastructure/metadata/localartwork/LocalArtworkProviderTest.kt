@@ -42,7 +42,7 @@ class LocalArtworkProviderTest {
       Files.createDirectory(root)
 
       val bookFile = Files.createFile(root.resolve("book(e).cbz"))
-      val thumbsFiles = listOf("bOOk(e).jpeg", "Book(e).tbn", "book(e).PNG", "book(e).jpeg",  "book(e).avif", "book(e).webp")
+      val thumbsFiles = listOf("bOOk(e).jpeg", "Book(e).tbn", "book(e).PNG", "book(e).jpeg", "book(e).avif", "book(e).webp")
       val thumbsDashFiles = listOf("book(e)-1.jpeg", "book(e)-2.tbn", "book(e)-23.png", "book(e)-111.jpeg", "book(e)-123.webp")
       val invalidFiles = listOf("book12(e).jpeg", "book(e).gif", "cover.png", "other.jpeg", "book.webp", "book(e).jxl")
 
