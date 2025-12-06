@@ -28,8 +28,8 @@ class LocalArtworkProvider(
   private val imageAnalyzer: ImageAnalyzer,
 ) : SidecarSeriesConsumer,
   SidecarBookConsumer {
-  val supportedExtensions = listOf("png", "jpeg", "jpg", "tbn", "webp", "gif")
-  val supportedSeriesFiles = listOf("cover", "default", "folder", "poster", "series")
+  val supportedExtensions = listOf("png", "jpeg", "jpg", "tbn", "webp", "gif", "avif")
+  val supportedSeriesFiles = listOf("cover", "default", "folder", "poster", "series", "thumbnail")
 
   fun getBookThumbnails(book: Book): List<ThumbnailBook> {
     logger.info { "Looking for local thumbnails for book: $book" }

@@ -9,6 +9,8 @@ import kotlin.io.path.toPath
 data class Library(
   val name: String,
   val root: URL,
+  val importPromediathekInfoJson: Boolean = true,
+  val importPromediathekTitleInfoJson: Boolean = true,
   val importComicInfoBook: Boolean = true,
   val importComicInfoSeries: Boolean = true,
   val importComicInfoCollection: Boolean = true,

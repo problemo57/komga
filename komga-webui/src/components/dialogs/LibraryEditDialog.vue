@@ -302,6 +302,25 @@
                 <v-container fluid>
                   <v-row>
                     <v-col>
+                      <span class="text-subtitle-1 text--primary">{{
+                          $t('dialog.edit_library.label_import_promediathek')
+                        }}</span>
+                      <v-checkbox
+                        v-model="form.importPromediathekInfoJson"
+                        :label="$t('dialog.edit_library.label_import_promediathek_info_json')"
+                        hide-details
+                        class="mx-4"
+                      />
+                      <v-checkbox
+                        v-model="form.importPromediathekTitleInfoJson"
+                        :label="$t('dialog.edit_library.label_import_promediathek_title_info_json')"
+                        hide-details
+                        class="mx-4"
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
                       <v-checkbox
                         v-model="importComicInfo"
                         :indeterminate="importComicInfo === 1"
@@ -460,6 +479,8 @@ export default Vue.extend({
       form: {
         name: '',
         path: '',
+        importPromediathekInfoJson: true,
+        importPromediathekTitleInfoJson: true,
         importComicInfoBook: true,
         importComicInfoSeries: true,
         importComicInfoCollection: true,
@@ -616,6 +637,8 @@ export default Vue.extend({
     dialogReset(library?: LibraryDto) {
       this.form.name = library ? library.name : ''
       this.form.path = library ? library.root : ''
+      this.form.importPromediathekInfoJson = library ? library.importPromediathekInfoJson : true
+      this.form.importPromediathekTitleInfoJson = library ? library.importPromediathekTitleInfoJson : true
       this.form.importComicInfoBook = library ? library.importComicInfoBook : true
       this.form.importComicInfoSeries = library ? library.importComicInfoSeries : true
       this.form.importComicInfoCollection = library ? library.importComicInfoCollection : true
@@ -653,6 +676,8 @@ export default Vue.extend({
         return {
           name: this.form.name,
           root: this.form.path,
+          importPromediathekInfoJson: this.form.importPromediathekInfoJson,
+          importPromediathekTitleInfoJson: this.form.importPromediathekTitleInfoJson,
           importComicInfoBook: this.form.importComicInfoBook,
           importComicInfoSeries: this.form.importComicInfoSeries,
           importComicInfoCollection: this.form.importComicInfoCollection,

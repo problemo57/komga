@@ -4,6 +4,8 @@ export interface LibraryDto {
   id: string,
   name: string,
   root: string,
+  importPromediathekInfoJson: boolean,
+  importPromediathekTitleInfoJson: boolean,
   importComicInfoBook: boolean,
   importComicInfoSeries: boolean,
   importComicInfoCollection: boolean,

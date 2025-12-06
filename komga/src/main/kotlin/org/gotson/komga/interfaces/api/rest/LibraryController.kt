@@ -94,6 +94,8 @@ class LibraryController(
           Library(
             name = library.name,
             root = filePathToUrl(library.root),
+            importPromediathekInfoJson = library.importPromediathekInfoJson,
+            importPromediathekTitleInfoJson = library.importPromediathekTitleInfoJson,
             importComicInfoBook = library.importComicInfoBook,
             importComicInfoSeries = library.importComicInfoSeries,
             importComicInfoCollection = library.importComicInfoCollection,
