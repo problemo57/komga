@@ -78,8 +78,8 @@ class LocalArtworkProviderTest {
       val seriesPath = fs.getPath("/series")
       val seriesFile = Files.createDirectory(seriesPath)
 
-      val thumbsFiles = listOf("CoVeR.jpeg", "DefauLt.tbn", "POSter.PNG", "FoLDer.jpeg", "serIES.TBN", "serIes.WebP")
-      val invalidFiles = listOf("cover.gif", "artwork.jpg", "other.jpeg", "cover.avif", "series.jxl")
+      val thumbsFiles = listOf("CoVeR.jpeg", "DefauLt.tbn", "POSter.PNG", "FoLDer.jpeg", "serIES.TBN", "serIes.WebP", "cover.avif", "thumBnaIl.png")
+      val invalidFiles = listOf("cover.gif", "artwork.jpg", "other.jpeg", "series.jxl")
 
       (thumbsFiles + invalidFiles).forEach { Files.createFile(seriesPath.resolve(it)) }
 
