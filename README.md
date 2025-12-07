@@ -1,5 +1,5 @@
 # Custom modified version of Komga to index thumbnail.* Cover files (with .avif) and read my custom info.json files for Metadata.
-#
+# Implemented hacky support of jpeg xl files being transcoded back to jpeg for lossless viewing.
 #
 #
 

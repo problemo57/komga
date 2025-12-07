@@ -63,13 +63,22 @@ class ImageConverter(
   fun canConvertMediaType(
     from: String,
     to: String,
-  ) = supportedReadMediaTypes.contains(from) && supportedWriteMediaTypes.contains(to)
+  ): Boolean {
+    if (from == "image/jxl" && to == "image/jpeg") {
+      return true
+    }
+    return supportedReadMediaTypes.contains(from) && supportedWriteMediaTypes.contains(to)
+  }
 
   fun convertImage(
     imageBytes: ByteArray,
     format: String,
-  ): ByteArray =
-    ByteArrayOutputStream().use { baos ->
+  ): ByteArray {
+    if (format == "JPEG" && imageBytes.slice(IntRange(0, 11)).toString() == "[0, 0, 0, 12, 74, 88, 76, 32, 13, 10, -121, 10]") {
+      return ImageTranscodeJpegXl().transcode(imageBytes)
+    }
+
+    return ByteArrayOutputStream().use { baos ->
       val image = ImageIO.read(imageBytes.inputStream())
 
       val result =
@@ -89,6 +98,7 @@ class ImageConverter(
 
       baos.toByteArray()
     }
+  }
 
   fun resizeImageToByteArray(
     imageBytes: ByteArray,
