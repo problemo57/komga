@@ -43,12 +43,12 @@ jobs:
       version_next: ${{ steps.versions.outputs.version_next }}
       should_release: ${{ steps.versions.outputs.should_release }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
       - name: Install svu
         run: brew install --cask caarlos0/tap/svu
       - name: Compute next version for release
@@ -72,7 +72,7 @@ jobs:
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -84,7 +84,7 @@ jobs:
         if: needs.version.outputs.should_release #only redo if the version changed
         run: sed -i -e "s/version=.*/version=${{ needs.version.outputs.version_next }}/" gradle.properties
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -98,26 +98,26 @@ jobs:
           distribution: 'temurin'
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build
         run: ./gradlew :komga:prepareThymeLeaf :komga:bootJar :komga-tray:jar
@@ -143,7 +143,7 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: JReleaser Changelog output
         if: always() &&  needs.version.outputs.should_release
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: jreleaser-changelog
           path: |
@@ -151,7 +151,7 @@ jobs:
             build/jreleaser/output.properties
 
       - name: Release commit and push
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         if: needs.version.outputs.should_release #only redo if the version changed
         with:
           message: 'chore(release): ${{ needs.version.outputs.version_next }} [skip ci]'
@@ -167,7 +167,7 @@ jobs:
           echo $APPLE_PRIVATE_KEY | base64 --decode > ./secret/apple_private_key.p8
 
       - name: Conveyor make copied-site
-        uses: hydraulic-software/conveyor/actions/build@v20.0
+        uses: hydraulic-software/conveyor/actions/build@v22.0
         if: inputs.conveyor-copied-site
         with:
           command: --cache-limit=2.0 -f conveyor.ci.conf make copied-site -o ./output/site
@@ -182,7 +182,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_SECRET_ACCESS_KEY }}
       - name: Upload Conveyor log
         if: always() && inputs.conveyor-copied-site
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: conveyor-make-copied-site
           path: ~/.cache/hydraulic/conveyor/logs/log.latest.txt
@@ -194,7 +194,7 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: JReleaser Release output
         if: always() && inputs.github_release
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: jreleaser-release
           path: |
@@ -212,7 +212,7 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: JReleaser Publish output
         if: always() && inputs.docker_release
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: jreleaser-publish
           path: |
@@ -220,7 +220,7 @@ jobs:
             build/jreleaser/output.properties
 
       - name: Conveyor - publish to Microsoft Store
-        uses: hydraulic-software/conveyor/actions/build@v20.0
+        uses: hydraulic-software/conveyor/actions/build@v22.0
         if: inputs.msstore_release
         with:
           command: --cache-limit=2.0 -f conveyor.msstore.ci.conf make ms-store-release -o ./output/msstore
@@ -236,7 +236,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_SECRET_ACCESS_KEY }}
       - name: Upload Conveyor log
         if: always() && inputs.msstore_release
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: conveyor-ms-store-release
           path: ~/.cache/hydraulic/conveyor/logs/log.latest.txt
